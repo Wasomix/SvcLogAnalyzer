@@ -7,13 +7,14 @@ namespace SvcLogAnalyzerBackEnd
 {
     public class SvcLogFilesSearcher
     {
+        private string _patterToSearch = "200006199089";
         public void Run()
         {
             string prefixName = "TransferWorker_Messages__";
             string suffixName = "transferworker_in_0.svclog";
             const int NUMBER_OF_FILES = 53;
             const int INITIAL_VALUE = 1;
-            string patterToSearch = "200006199089";
+            
             string filePath = @"C:\Users\sferrand\Sergio\00_ACTUAL\Capgemini\Projects\PostNL\IncidentsWorkitem\Active\INCIDENT 26789\20211213";
 
             List<string> filesContainingPattern = new List<string>();
@@ -45,29 +46,16 @@ namespace SvcLogAnalyzerBackEnd
                         reader.DiscardBufferedData();
                         char[] buffer = new char[4096];
                         int charsRead;
-                        int count = 0;
-                        long result = -1;
+                        //int count = 0;
+                        //long result = -1;
                         bool patternNotFound = true;
                         while (((charsRead = reader.Read(buffer, 0, buffer.Length)) > 0) && (patternNotFound))
                         {
-                            for (int c = 0; c < charsRead; c++)
+                            if(ItContainsPattern(buffer))
                             {
-                                // Part of our needle?
-                                if (buffer[c] == patterToSearch[count])
-                                    count++;
-                                else
-                                    count = 0;
-
-                                // Needle complete?
-                                if (count == patterToSearch.Length)
-                                {
-                                    result = fromPosition + (c + 1) - patterToSearch.Length;
-                                    patternNotFound = false;
-                                    filesContainingPattern.Add(fileName);
-                                    break;
-                                }
+                                patternNotFound = false;
+                                filesContainingPattern.Add(fileName);
                             }
-                            fromPosition += charsRead;
                         }
 
                         File.Delete(fileName);
@@ -89,6 +77,12 @@ namespace SvcLogAnalyzerBackEnd
             {
                 System.Console.WriteLine(ex.ToString());
             }
+        }
+
+        private bool ItContainsPattern(char[] buffer)
+        {
+            var bufferRead = string.Join("", buffer);
+            return bufferRead.Contains(_patterToSearch);
         }
     }
 }
