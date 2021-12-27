@@ -4,12 +4,12 @@ namespace SvcLogAnalyzerBackEnd
 {
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Start of test!");
 
-            SvcLogFilesSearcher searchInSvcLogFiles = new SvcLogFilesSearcher();
-            searchInSvcLogFiles.Run();
+            SvcLogAnalyzerBEMain svcLogAnalyzerBEMain = new SvcLogAnalyzerBEMain(new SvcLogAnalyzerBEJsonConfig());
+            svcLogAnalyzerBEMain.Run();
 
             Console.WriteLine("End of test!");
         }

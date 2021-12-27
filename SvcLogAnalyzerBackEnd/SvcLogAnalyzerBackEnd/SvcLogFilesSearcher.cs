@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -7,34 +8,37 @@ namespace SvcLogAnalyzerBackEnd
 {
     public class SvcLogFilesSearcher
     {
-        private string _patternToSearch;
+        //private string _patternToSearch;
         private List<string> _filesContainingPattern;
-        List<string> _svcFileNames;
+        private List<string> _svcFileNames;
+        private SvcLogAnalyzerBEDataConfig _configuration;
 
-        public SvcLogFilesSearcher()
+        public SvcLogFilesSearcher(SvcLogAnalyzerBEDataConfig configuration)
         {
-            _patternToSearch = "200006199089";
+            //_patternToSearch = "200006199089";
             _filesContainingPattern = new List<string>();
             _svcFileNames = new List<string>();
+            _configuration = configuration;
         }
 
         public void Run()
         {
-            string prefixName = "TransferWorker_Messages__";
-            string suffixName = "transferworker_in_0.svclog";
+            //Configuration
+            //
+            //
             const int NUMBER_OF_FILES = 53;
             const int INITIAL_VALUE = 1;            
-            string filePath = @"C:\Users\sferrand\Sergio\00_ACTUAL\Capgemini\Projects\PostNL\IncidentsWorkitem\Active\INCIDENT 26789\20211213";           
 
             try
             {
                 for (int i = INITIAL_VALUE; i < NUMBER_OF_FILES; i++)
                 {
-                    string fileNameToAdd = prefixName + i.ToString() + suffixName;
+                    string fileNameToAdd = _configuration.PrefixName + i.ToString() + _configuration.SufixName;
                     _svcFileNames.Add(fileNameToAdd);
                 }
 
-                SearchPatternInSvcLogFiles(filePath);
+                //GetSvclogFiles();
+                SearchPatternInSvcLogFiles(_configuration.FilePath);
                 PrintNumberOfNewLines(3);
                 PrintFileNamesContainingPattern();
                 
@@ -49,7 +53,7 @@ namespace SvcLogAnalyzerBackEnd
         {            
             foreach (string fileName in _svcFileNames)
             {
-                string fileNamePath = filePath + @"\" + fileName;
+                string fileNamePath = _configuration.FilePath + @"\" + fileName;
 
                 if (File.Exists(fileNamePath))
                 {
@@ -67,7 +71,7 @@ namespace SvcLogAnalyzerBackEnd
             File.Copy(fileNamePath, fileName, true);
             StreamReader reader = SetUpStreamReader(fileNamePath);
 
-            if (patternSearcher.ItContainsPattern(reader, _patternToSearch))
+            if (patternSearcher.ItContainsPattern(reader, _configuration.PatternToSearch))
             {
                 _filesContainingPattern.Add(fileName);
             }
