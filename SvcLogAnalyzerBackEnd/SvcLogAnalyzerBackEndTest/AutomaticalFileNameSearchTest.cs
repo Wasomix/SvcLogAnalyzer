@@ -26,7 +26,7 @@ namespace SvcLogAnalyzerBackEndTest
     }
 
         [Fact]
-        public void FindFilesAutomatically_FindSvclogFiles_ReturnRightAmountOfFiles()
+        public void GetFileNamesToSearchInAFolder_FindSvclogFiles_ReturnRightAmountOfFiles()
         {
             try
             {
