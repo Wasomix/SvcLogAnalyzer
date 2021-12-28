@@ -38,7 +38,7 @@ namespace SvcLogAnalyzerBackEnd
                 }
 
                 //GetSvclogFiles();
-                SearchPatternInSvcLogFiles(_configuration.FilePath);
+                SearchPatternInSvcLogFiles(_configuration.FilesPath);
                 PrintNumberOfNewLines(3);
                 PrintFileNamesContainingPattern();
                 
@@ -53,7 +53,7 @@ namespace SvcLogAnalyzerBackEnd
         {            
             foreach (string fileName in _svcFileNames)
             {
-                string fileNamePath = _configuration.FilePath + @"\" + fileName;
+                string fileNamePath = _configuration.FilesPath + @"\" + fileName;
 
                 if (File.Exists(fileNamePath))
                 {

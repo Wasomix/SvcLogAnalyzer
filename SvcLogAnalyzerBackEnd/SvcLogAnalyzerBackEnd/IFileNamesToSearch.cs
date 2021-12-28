@@ -4,6 +4,6 @@ namespace SvcLogAnalyzerBackEnd
 {
     public interface IFileNamesToSearchOn
     {
-        public List<string> GetFileNamesToSearchInAFolder(SvcLogAnalyzerBEDataConfig svcLogAnalyzerBEDataConfig);
+        public List<string> GetFileNamesToSearchInAFolder();
     }
 }

@@ -8,7 +8,7 @@ namespace SvcLogAnalyzerBackEnd
     {
         public string PrefixName { get; set; }
         public string SufixName { get; set; } 
-        public string FilePath { get; set; }
+        public string FilesPath { get; set; }
         public string PatternToSearch { get; set; }
         public string TypeOfFile { get; set; }
     }
