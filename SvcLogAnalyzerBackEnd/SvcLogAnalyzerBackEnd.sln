@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SvcLogAnalyzerBackEnd", "SvcLogAnalyzerBackEnd\SvcLogAnalyzerBackEnd.csproj", "{4AC3112B-B473-4E4E-8F96-215965E98317}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SvcLogAnalyzerBackEnd", "SvcLogAnalyzerBackEnd\SvcLogAnalyzerBackEnd.csproj", "{4AC3112B-B473-4E4E-8F96-215965E98317}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SvcLogAnalyzerBackEndTest", "SvcLogAnalyzerBackEndTest\SvcLogAnalyzerBackEndTest.csproj", "{069CB3C4-E2FD-478C-981A-FF790A6D445B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4AC3112B-B473-4E4E-8F96-215965E98317}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AC3112B-B473-4E4E-8F96-215965E98317}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AC3112B-B473-4E4E-8F96-215965E98317}.Release|Any CPU.Build.0 = Release|Any CPU
+		{069CB3C4-E2FD-478C-981A-FF790A6D445B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{069CB3C4-E2FD-478C-981A-FF790A6D445B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{069CB3C4-E2FD-478C-981A-FF790A6D445B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{069CB3C4-E2FD-478C-981A-FF790A6D445B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
