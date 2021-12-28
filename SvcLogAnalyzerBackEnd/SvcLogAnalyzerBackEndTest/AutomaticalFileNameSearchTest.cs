@@ -12,9 +12,9 @@ namespace SvcLogAnalyzerBackEndTest
         private SvcLogAnalyzerBEDataConfig _svcLogAnalyzerBEDataConfig;
         private const int NUMBER_OF_SVCLOG_FILES = 4;
         private List<string> _fileNames;
-        private string _filePath/* = @".\"*/;
-        private string _fileNamePreffix/* = "TestFile_"*/;
-        private string _fileType/* = ".svclog"*/;
+        private string _filePath;
+        private string _fileNamePreffix;
+        private string _fileType;
 
         public AutomaticalFileNameSearchTest()
         {
@@ -85,8 +85,7 @@ namespace SvcLogAnalyzerBackEndTest
         {            
             for(int i=0; i < NUMBER_OF_SVCLOG_FILES; i++)
             {
-                string fileName = /*_filePath + */_fileNamePreffix + 
-                                    i.ToString() + _fileType;
+                string fileName = _fileNamePreffix + i.ToString() + _fileType;
                 using var file = File.Create(fileName);
                 _fileNames.Add(fileName);
             }
@@ -100,12 +99,9 @@ namespace SvcLogAnalyzerBackEndTest
 
         private void DeleteSvcLogFiles()
         {
-            string fileNamePreffix = "TestFile_";
-
             for (int i = 0; i < NUMBER_OF_SVCLOG_FILES; i++)
             {
-                string fileName = /*_filePath + */fileNamePreffix +
-                                    i.ToString() + _fileType;
+                string fileName = _fileNamePreffix + i.ToString() + _fileType;
                 File.Delete(fileName);
             }
         }
