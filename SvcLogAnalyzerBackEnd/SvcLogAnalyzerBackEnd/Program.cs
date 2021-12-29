@@ -8,7 +8,11 @@ namespace SvcLogAnalyzerBackEnd
         {
             Console.WriteLine("Start of test!");
 
-            SvcLogAnalyzerBEMain svcLogAnalyzerBEMain = new SvcLogAnalyzerBEMain(new SvcLogAnalyzerBEJsonConfig());
+            ILog logger = new Log4Wrapper();
+            SvcLogAnalyzerBEMain svcLogAnalyzerBEMain = new SvcLogAnalyzerBEMain(
+                new SvcLogAnalyzerBEJsonConfig(), 
+                new AutomaticalFileNameSearch(new SvcLogAnalyzerBEDataConfig(), logger)
+            );
             svcLogAnalyzerBEMain.Run();
 
             Console.WriteLine("End of test!");

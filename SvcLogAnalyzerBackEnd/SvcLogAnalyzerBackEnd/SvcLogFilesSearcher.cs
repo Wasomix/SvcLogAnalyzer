@@ -10,43 +10,36 @@ namespace SvcLogAnalyzerBackEnd
     {
         //private string _patternToSearch;
         private List<string> _filesContainingPattern;
-        private List<string> _svcFileNames;
+        private IList<string> _svcFileNames;
         private SvcLogAnalyzerBEDataConfig _configuration;
 
-        public SvcLogFilesSearcher(SvcLogAnalyzerBEDataConfig configuration)
+        public SvcLogFilesSearcher(SvcLogAnalyzerBEDataConfig configuration,
+                                   IList<string> svcFileNames)
         {
             //_patternToSearch = "200006199089";
             _filesContainingPattern = new List<string>();
-            _svcFileNames = new List<string>();
-            _configuration = configuration;
+            _svcFileNames = /*new List<string>()*/svcFileNames;
+            _configuration = configuration;            
         }
 
-        public void Run()
+        public IList<string> GetFileNamesContainingPattern()
         {
-            //Configuration
-            //
-            //
-            const int NUMBER_OF_FILES = 53;
-            const int INITIAL_VALUE = 1;            
-
             try
             {
-                for (int i = INITIAL_VALUE; i < NUMBER_OF_FILES; i++)
-                {
-                    string fileNameToAdd = _configuration.PrefixName + i.ToString() + _configuration.SufixName;
-                    _svcFileNames.Add(fileNameToAdd);
-                }
-
                 //GetSvclogFiles();
                 SearchPatternInSvcLogFiles(_configuration.FilesPath);
+
                 PrintNumberOfNewLines(3);
                 PrintFileNamesContainingPattern();
-                
+                return _filesContainingPattern;
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine(ex.ToString());
-            }
+                string messageError = "An exception occurs while searching the pattern in svclog files";
+                _filesContainingPattern.Add(messageError);
+                Console.WriteLine(ex.ToString());
+                return _filesContainingPattern;
+            }           
         }
 
         private void SearchPatternInSvcLogFiles(string filePath)
@@ -57,8 +50,22 @@ namespace SvcLogAnalyzerBackEnd
 
                 if (File.Exists(fileNamePath))
                 {
-                    ProcessSvcLogFile(fileNamePath, fileName);
+                    CopyFileTemporally(fileNamePath, fileName);
+                    SearchPattern(fileNamePath, fileName);
+                    DeleteTemporalFile();
                 }
+            }
+        }
+
+        private void CopyFileTemporally(string fileNamePath, string fileName)
+        {
+            try
+            {
+                File.Copy(fileNamePath, fileName, true);
+            }
+            catch(Exception ex)
+            {
+
             }
         }
 
@@ -66,19 +73,26 @@ namespace SvcLogAnalyzerBackEnd
         {
             PatternSearcher patternSearcher = new PatternSearcher();
 
-            System.Console.WriteLine($"Start processing file {fileName}");
+            Console.WriteLine($"Start processing file {fileName}");
 
-            File.Copy(fileNamePath, fileName, true);
+            //File.Copy(fileNamePath, fileName, true);
+
+            SearchPatternInSvcLogFiles()
             StreamReader reader = SetUpStreamReader(fileNamePath);
-
             if (patternSearcher.ItContainsPattern(reader, _configuration.PatternToSearch))
             {
                 _filesContainingPattern.Add(fileName);
             }
 
+
             File.Delete(fileName);
-            System.Console.WriteLine($"End processing file {fileName}");
+            Console.WriteLine($"End processing file {fileName}");
             PrintNumberOfNewLines(1);
+        }
+
+        private void DeleteTemporalFile()
+        {
+
         }
 
         private StreamReader SetUpStreamReader(string fileNamePath)
@@ -95,7 +109,7 @@ namespace SvcLogAnalyzerBackEnd
         {
             foreach (var fileName in _filesContainingPattern)
             {
-                System.Console.WriteLine(fileName);
+                Console.WriteLine(fileName);
             }
         }
 
@@ -103,7 +117,7 @@ namespace SvcLogAnalyzerBackEnd
         {
             for(int i=0; i<numberOfNewLines; i++)
             {
-                System.Console.WriteLine("");
+                Console.WriteLine("");
             }            
         }
     }
