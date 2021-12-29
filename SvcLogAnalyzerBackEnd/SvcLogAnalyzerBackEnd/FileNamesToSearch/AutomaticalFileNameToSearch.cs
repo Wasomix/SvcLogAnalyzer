@@ -9,12 +9,12 @@ namespace SvcLogAnalyzerBackEnd
     /// This class is responsible for searching all files from a determined 
     /// type in a folder.
     /// </summary>
-    public class AutomaticalFileNameSearch : IFileNamesToSearchOn
+    public class AutomaticalFileNameToSearch : IFileNamesToSearchOn
     {
         private List<string> _fileNamesToSearchOn;
         private SvcLogAnalyzerBEDataConfig _svcLogAnalyzerBEDataConfig;
         private ILog _logger;
-        public AutomaticalFileNameSearch(SvcLogAnalyzerBEDataConfig svcLogAnalyzerBEDataConfig,
+        public AutomaticalFileNameToSearch(SvcLogAnalyzerBEDataConfig svcLogAnalyzerBEDataConfig,
                                          ILog logger)
         {
             _fileNamesToSearchOn = new List<string>();

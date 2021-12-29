@@ -9,10 +9,12 @@ namespace SvcLogAnalyzerBackEnd
             Console.WriteLine("Start of test!");
 
             ILog logger = new Log4Wrapper();
+            SvcLogAnalyzerBEDataConfig svcLogAnalyzerBEDataConfig = new SvcLogAnalyzerBEDataConfig();
+            ISystemConfiguration systemConfiguration = new SvcLogAnalyzerBEJsonConfig();
+            IFileNamesToSearchOn fileNamesToSearchOn = new AutomaticalFileNameToSearch(svcLogAnalyzerBEDataConfig, logger);
+
             SvcLogAnalyzerBEMain svcLogAnalyzerBEMain = new SvcLogAnalyzerBEMain(
-                new SvcLogAnalyzerBEJsonConfig(), 
-                new AutomaticalFileNameSearch(new SvcLogAnalyzerBEDataConfig(), logger)
-            );
+                systemConfiguration, fileNamesToSearchOn, logger);
             svcLogAnalyzerBEMain.Run();
 
             Console.WriteLine("End of test!");

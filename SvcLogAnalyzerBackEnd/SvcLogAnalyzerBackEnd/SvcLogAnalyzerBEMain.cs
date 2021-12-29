@@ -11,11 +11,13 @@ namespace SvcLogAnalyzerBackEnd
     {
         private SvcLogAnalyzerBEDataConfig _svcLogAnalyzerBEDataConfig;
         private List<string> _svcFileNames;
+        private List<string> _fileNamesContainingPattern;
         ISystemConfiguration _systemConfiguration;
         IFileNamesToSearchOn _fileNamesToSearchOn;
+        ILogFilesSearcher _logFilesSearcher;
         ILog _logger;
         public SvcLogAnalyzerBEMain(ISystemConfiguration systemConfiguration,
-                                    IFileNamesToSearchOn fileNamesToSearchOn,
+                                    IFileNamesToSearchOn fileNamesToSearchOn
                                     ILog logger)
         {
             _systemConfiguration = systemConfiguration;
@@ -31,7 +33,8 @@ namespace SvcLogAnalyzerBackEnd
             //searchInSvcLogFiles.Run();
 
             SetUp();
-            //Process();
+            SearchPatternInFiles();
+            SavesFileNamesContainingPattern();
             _logger.WriteLogInfo("End of Main from class SvcLogAnalyzerBEMain");
         }
 
@@ -49,6 +52,17 @@ namespace SvcLogAnalyzerBackEnd
         private void GetFileNamesToSearchOn()
         {
             _svcFileNames = _fileNamesToSearchOn.GetFileNamesToSearchInAFolder();
+        }
+
+        private void SearchPatternInFiles()
+        {
+            ILogFilesSearcher logFilesSearcher = new SvcLogFilesSearcher(_svcLogAnalyzerBEDataConfig, _svcFileNames);
+            _fileNamesContainingPattern = _logFilesSearcher.GetFileNamesContainingPattern();
+        }
+
+        private void SavesFileNamesContainingPattern()
+        {
+            
         }
     }
 }
