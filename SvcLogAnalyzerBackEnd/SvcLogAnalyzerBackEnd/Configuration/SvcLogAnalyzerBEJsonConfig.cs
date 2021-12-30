@@ -5,7 +5,7 @@ namespace SvcLogAnalyzerBackEnd
 {
     public class SvcLogAnalyzerBEJsonConfig : ISystemConfiguration
     {
-        public SvcLogAnalyzerBEDataConfig _configuration;
+        private SvcLogAnalyzerBEDataConfig _configuration;
 
         public SvcLogAnalyzerBEDataConfig GetSystemConfiguration()
         {

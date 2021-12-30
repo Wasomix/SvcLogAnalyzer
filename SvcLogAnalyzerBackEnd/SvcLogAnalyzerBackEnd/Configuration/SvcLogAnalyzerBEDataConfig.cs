@@ -10,5 +10,6 @@ namespace SvcLogAnalyzerBackEnd
         public string PatternToSearch { get; set; }
         public string TypeOfFile { get; set; }
         public string NameOfFileContainingPattern { get; set; }
+        public string ApplicationLogFileName { get; set; }
     }
 }

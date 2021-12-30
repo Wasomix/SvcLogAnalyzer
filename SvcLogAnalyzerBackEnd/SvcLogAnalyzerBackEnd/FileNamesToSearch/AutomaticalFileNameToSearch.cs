@@ -12,29 +12,28 @@ namespace SvcLogAnalyzerBackEnd
     public class AutomaticalFileNameToSearch : IFileNamesToSearchOn
     {
         private List<string> _fileNamesToSearchOn;
-        private SvcLogAnalyzerBEDataConfig _svcLogAnalyzerBEDataConfig;
         private ILog _logger;
-        public AutomaticalFileNameToSearch(SvcLogAnalyzerBEDataConfig svcLogAnalyzerBEDataConfig,
-                                         ILog logger)
+        public AutomaticalFileNameToSearch(ILog logger)
         {
             _fileNamesToSearchOn = new List<string>();
-            _svcLogAnalyzerBEDataConfig = svcLogAnalyzerBEDataConfig;
             _logger = logger;
         }
-        public List<string> GetFileNamesToSearchInAFolder()
+        public List<string> GetFileNamesToSearchInAFolder(string logFilesPath,
+                                                          string typeOfFile)
         {
             _logger.WriteLogInfo("Start of GetFileNamesToSearchInAFolder");
-            FindFilesAutomatically();
+            FindFilesAutomatically(logFilesPath, typeOfFile);
             _logger.WriteLogInfo("End of GetFileNamesToSearchInAFolder");
             return _fileNamesToSearchOn;
         }
 
-        private void FindFilesAutomatically()
+        private void FindFilesAutomatically(string logFilesPath,
+                                            string typeOfFile)
         {
             try
             {
-                DirectoryInfo d = new DirectoryInfo(_svcLogAnalyzerBEDataConfig.LogFilesPath);
-                FileInfo[] Files = d.GetFiles(_svcLogAnalyzerBEDataConfig.TypeOfFile);
+                DirectoryInfo d = new DirectoryInfo(logFilesPath);
+                FileInfo[] Files = d.GetFiles(typeOfFile);
 
                 foreach (var file in Files)
                 {

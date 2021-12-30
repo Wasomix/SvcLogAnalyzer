@@ -30,6 +30,7 @@ namespace SvcLogAnalyzerBackEnd
             _logger.WriteLogInfo("Start of Main from class SvcLogAnalyzerBEMain");
 
             GetConfigurations();
+            DeleteFileContainingFileNamesWithPatternIfItExist();
             SearchPatternInFiles();
             SavesFileNamesContainingPattern();
 
@@ -49,7 +50,13 @@ namespace SvcLogAnalyzerBackEnd
 
         private void GetFileNamesToSearchOn()
         {
-            _svcFileNames = _fileNamesToSearchOn.GetFileNamesToSearchInAFolder();
+            _svcFileNames = _fileNamesToSearchOn.GetFileNamesToSearchInAFolder(
+                _svcLogAnalyzerBEDataConfig.LogFilesPath, _svcLogAnalyzerBEDataConfig.TypeOfFile);
+        }
+
+        private void DeleteFileContainingFileNamesWithPatternIfItExist()
+        {
+            FileWrapper.DeleteFileIfItExist(_svcLogAnalyzerBEDataConfig.NameOfFileContainingPattern);
         }
 
         // TODO: Think how to change this to try to do not create the object here
@@ -61,15 +68,13 @@ namespace SvcLogAnalyzerBackEnd
 
         private void SavesFileNamesContainingPattern()
         {
-            File.Create(_svcLogAnalyzerBEDataConfig.NameOfFileContainingPattern);
-
             string filesNameContainingPattern = "";
             foreach(var file in _fileNamesContainingPattern)
             {
                 filesNameContainingPattern = filesNameContainingPattern + file + "\n";
             }
 
-            File.WriteAllText(".", filesNameContainingPattern);
+            File.WriteAllText(_svcLogAnalyzerBEDataConfig.NameOfFileContainingPattern, filesNameContainingPattern);
         }
     }
 }

@@ -34,8 +34,8 @@ namespace SvcLogAnalyzerBackEndTest
             try
             {
                 SetUp();
-                IFileNamesToSearchOn fileNamesToSearchOn = new AutomaticalFileNameToSearch(_svcLogAnalyzerBEDataConfig, _logFake);
-                var fileNames = fileNamesToSearchOn.GetFileNamesToSearchInAFolder();
+                IFileNamesToSearchOn fileNamesToSearchOn = new AutomaticalFileNameToSearch(_logFake);
+                var fileNames = fileNamesToSearchOn.GetFileNamesToSearchInAFolder(_svcLogAnalyzerBEDataConfig.LogFilesPath, _svcLogAnalyzerBEDataConfig.TypeOfFile);
                 var testPassed = AreBothListOfStringsTheSame(fileNames, _fileNames);
 
                 Assert.True(testPassed);
