@@ -16,6 +16,7 @@ namespace SvcLogAnalyzerBackEndTest
         private string _logFilePath;
         private string _fileNamePreffix;
         private string _fileType;
+        private ILog _logFake;
 
         public AutomaticalFileNameSearchTest()
         {
@@ -24,6 +25,7 @@ namespace SvcLogAnalyzerBackEndTest
             _logFilePath = @".\";
             _fileNamePreffix = "TestFile_";
             _fileType = ".svclog";
+            _logFake = new LogFake();
     }
 
         [Fact]
@@ -32,8 +34,7 @@ namespace SvcLogAnalyzerBackEndTest
             try
             {
                 SetUp();
-                // TODO: Use Mock for logger
-                IFileNamesToSearchOn fileNamesToSearchOn = new AutomaticalFileNameToSearch(_svcLogAnalyzerBEDataConfig);
+                IFileNamesToSearchOn fileNamesToSearchOn = new AutomaticalFileNameToSearch(_svcLogAnalyzerBEDataConfig, _logFake);
                 var fileNames = fileNamesToSearchOn.GetFileNamesToSearchInAFolder();
                 var testPassed = AreBothListOfStringsTheSame(fileNames, _fileNames);
 
