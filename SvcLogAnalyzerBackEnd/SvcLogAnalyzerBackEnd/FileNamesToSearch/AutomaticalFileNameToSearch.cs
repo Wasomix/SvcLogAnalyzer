@@ -33,7 +33,7 @@ namespace SvcLogAnalyzerBackEnd
         {
             try
             {
-                DirectoryInfo d = new DirectoryInfo(_svcLogAnalyzerBEDataConfig.FilesPath);
+                DirectoryInfo d = new DirectoryInfo(_svcLogAnalyzerBEDataConfig.LogFilesPath);
                 FileInfo[] Files = d.GetFiles(_svcLogAnalyzerBEDataConfig.TypeOfFile);
 
                 foreach (var file in Files)
