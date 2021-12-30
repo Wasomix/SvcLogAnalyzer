@@ -55,7 +55,7 @@ namespace SvcLogAnalyzerBackEnd
         // TODO: Think how to change this to try to do not create the object here
         private void SearchPatternInFiles()
         {
-            ILogFilesSearcher logFilesSearcher = new SvcLogFilesSearcher(_svcLogAnalyzerBEDataConfig, _svcFileNames);
+            ILogFilesSearcher logFilesSearcher = new SvcLogFilesSearcher(_svcLogAnalyzerBEDataConfig, _svcFileNames, _logger);
             _fileNamesContainingPattern = logFilesSearcher.GetFileNamesContainingPattern();
         }
 

@@ -6,9 +6,10 @@ namespace SvcLogAnalyzerBackEnd
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Start of test!");
-
             ILog logger = new Log4Wrapper();
+
+            logger.WriteLogInfo("Start of program!");
+
             SvcLogAnalyzerBEDataConfig svcLogAnalyzerBEDataConfig = new SvcLogAnalyzerBEDataConfig();
             ISystemConfiguration systemConfiguration = new SvcLogAnalyzerBEJsonConfig();
             IFileNamesToSearchOn fileNamesToSearchOn = new AutomaticalFileNameToSearch(svcLogAnalyzerBEDataConfig, logger);
@@ -17,7 +18,7 @@ namespace SvcLogAnalyzerBackEnd
                 systemConfiguration, fileNamesToSearchOn, logger);
             svcLogAnalyzerBEMain.Run();
 
-            Console.WriteLine("End of test!");
+            logger.WriteLogInfo("End of program!");
         }
     }
 }

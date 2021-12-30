@@ -93,7 +93,7 @@ namespace SvcLogAnalyzerBackEnd
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                _logger.WriteLogError(ex.ToString());
             }
         }
 
