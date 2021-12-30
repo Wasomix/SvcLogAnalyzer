@@ -2,6 +2,7 @@ using SvcLogAnalyzerBackEnd;
 using System.Collections.Generic;
 using System.IO;
 using Xunit;
+
 using System.Linq;
 using System;
 
@@ -12,7 +13,7 @@ namespace SvcLogAnalyzerBackEndTest
         private SvcLogAnalyzerBEDataConfig _svcLogAnalyzerBEDataConfig;
         private const int NUMBER_OF_SVCLOG_FILES = 4;
         private List<string> _fileNames;
-        private string _filePath;
+        private string _logFilePath;
         private string _fileNamePreffix;
         private string _fileType;
 
@@ -20,7 +21,7 @@ namespace SvcLogAnalyzerBackEndTest
         {
             _svcLogAnalyzerBEDataConfig = new SvcLogAnalyzerBEDataConfig();
             _fileNames = new List<string>();
-            _filePath = @".\";
+            _logFilePath = @".\";
             _fileNamePreffix = "TestFile_";
             _fileType = ".svclog";
     }
@@ -31,7 +32,8 @@ namespace SvcLogAnalyzerBackEndTest
             try
             {
                 SetUp();
-                IFileNamesToSearchOn fileNamesToSearchOn = new AutomaticalFileNameSearch(_svcLogAnalyzerBEDataConfig);
+                // TODO: Use Mock for logger
+                IFileNamesToSearchOn fileNamesToSearchOn = new AutomaticalFileNameToSearch(_svcLogAnalyzerBEDataConfig);
                 var fileNames = fileNamesToSearchOn.GetFileNamesToSearchInAFolder();
                 var testPassed = AreBothListOfStringsTheSame(fileNames, _fileNames);
 
@@ -93,7 +95,7 @@ namespace SvcLogAnalyzerBackEndTest
 
         private void SetConfiguration()
         {
-            _svcLogAnalyzerBEDataConfig.FilesPath = _filePath;
+            _svcLogAnalyzerBEDataConfig.LogFilesPath = _logFilePath;
             _svcLogAnalyzerBEDataConfig.TypeOfFile = "*.svclog";
         }
 

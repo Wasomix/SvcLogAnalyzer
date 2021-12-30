@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace SvcLogAnalyzerBackEnd
@@ -14,10 +15,9 @@ namespace SvcLogAnalyzerBackEnd
         private List<string> _fileNamesContainingPattern;
         ISystemConfiguration _systemConfiguration;
         IFileNamesToSearchOn _fileNamesToSearchOn;
-        ILogFilesSearcher _logFilesSearcher;
         ILog _logger;
         public SvcLogAnalyzerBEMain(ISystemConfiguration systemConfiguration,
-                                    IFileNamesToSearchOn fileNamesToSearchOn
+                                    IFileNamesToSearchOn fileNamesToSearchOn,
                                     ILog logger)
         {
             _systemConfiguration = systemConfiguration;
@@ -28,17 +28,15 @@ namespace SvcLogAnalyzerBackEnd
         public void Run()
         {
             _logger.WriteLogInfo("Start of Main from class SvcLogAnalyzerBEMain");
-            // TODO: Get configuration data from XML file
-            //SvcLogFilesSearcher searchInSvcLogFiles = new SvcLogFilesSearcher();
-            //searchInSvcLogFiles.Run();
 
-            SetUp();
+            GetConfigurations();
             SearchPatternInFiles();
             SavesFileNamesContainingPattern();
+
             _logger.WriteLogInfo("End of Main from class SvcLogAnalyzerBEMain");
         }
 
-        private void SetUp()
+        private void GetConfigurations()
         {
             GetSystemConfiguration();
             GetFileNamesToSearchOn();
@@ -54,15 +52,24 @@ namespace SvcLogAnalyzerBackEnd
             _svcFileNames = _fileNamesToSearchOn.GetFileNamesToSearchInAFolder();
         }
 
+        // TODO: Think how to change this to try to do not create the object here
         private void SearchPatternInFiles()
         {
             ILogFilesSearcher logFilesSearcher = new SvcLogFilesSearcher(_svcLogAnalyzerBEDataConfig, _svcFileNames);
-            _fileNamesContainingPattern = _logFilesSearcher.GetFileNamesContainingPattern();
+            _fileNamesContainingPattern = logFilesSearcher.GetFileNamesContainingPattern();
         }
 
         private void SavesFileNamesContainingPattern()
         {
-            
+            File.Create(_svcLogAnalyzerBEDataConfig.NameOfFileContainingPattern);
+
+            string filesNameContainingPattern = "";
+            foreach(var file in _fileNamesContainingPattern)
+            {
+                filesNameContainingPattern = filesNameContainingPattern + file + "\n";
+            }
+
+            File.WriteAllText(".", filesNameContainingPattern);
         }
     }
 }
