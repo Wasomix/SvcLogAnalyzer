@@ -11,22 +11,25 @@ namespace SvcLogAnalyzerBackEnd
         private List<string> _filesContainingPattern;
         private List<string> _svcFileNames;
         private SvcLogAnalyzerBEDataConfig _configuration;
+        private ILog _logger;
 
         public SvcLogFilesSearcher(SvcLogAnalyzerBEDataConfig configuration,
-                                   List<string> svcFileNames)
+                                   List<string> svcFileNames,
+                                   ILog logger)
         {
             _filesContainingPattern = new List<string>();
             _svcFileNames = svcFileNames;
-            _configuration = configuration;            
+            _configuration = configuration;   
+            _logger = logger;
         }
 
         public List<string> GetFileNamesContainingPattern()
         {
             try
             {
-                SearchPatternInSvcLogFiles(_configuration.FilesPath);
-                PrintNumberOfNewLines(3);
-                PrintFileNamesContainingPattern();
+                _logger.WriteLogInfo($"[SvcLogFilesSearcher] Start from method GetFileNamesContainingPattern");
+                SearchPatternInSvcLogFiles();
+                _logger.WriteLogInfo($"[SvcLogFilesSearcher] End from method GetFileNamesContainingPattern");
 
                 return _filesContainingPattern;
             }
@@ -34,17 +37,17 @@ namespace SvcLogAnalyzerBackEnd
             {
                 string messageError = "An exception occurs while searching the pattern in svclog files";
                 _filesContainingPattern.Add(messageError);
-                Console.WriteLine(ex.ToString());
+                _logger.WriteLogError(ex.ToString());
 
                 return _filesContainingPattern;
             }           
         }
 
-        private void SearchPatternInSvcLogFiles(string filePath)
+        private void SearchPatternInSvcLogFiles()
         {            
             foreach (string fileName in _svcFileNames)
             {
-                string fileNamePath = _configuration.FilesPath + @"\" + fileName;
+                string fileNamePath = _configuration.LogFilesPath + @"\" + fileName;
 
                 if (File.Exists(fileNamePath))
                 {
@@ -63,13 +66,13 @@ namespace SvcLogAnalyzerBackEnd
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                _logger.WriteLogError(ex.ToString());
             }
         }
 
         private void SearchPattern(string fileNamePath, string fileName)
         {           
-            Console.WriteLine($"Start processing file {fileName}");
+            _logger.WriteLogInfo($"[SvcLogFilesSearcher] Start processing file {fileName} from method SearchPattern");
 
             PatternSearcher patternSearcher = new PatternSearcher();
             StreamReader reader = SetUpStreamReader(fileNamePath);
@@ -78,9 +81,8 @@ namespace SvcLogAnalyzerBackEnd
             {
                 _filesContainingPattern.Add(fileName);
             }
-            
-            Console.WriteLine($"End processing file {fileName}");
-            PrintNumberOfNewLines(1);
+
+            _logger.WriteLogInfo($"[SvcLogFilesSearcher] End processing file {fileName} from method SearchPattern");
         }
 
         private void DeleteTemporalFile(string fileName)
@@ -103,22 +105,6 @@ namespace SvcLogAnalyzerBackEnd
             reader.BaseStream.Seek(fromPosition, SeekOrigin.Begin);
             reader.DiscardBufferedData();
             return reader;
-        }
-
-        private void PrintFileNamesContainingPattern()
-        {
-            foreach (var fileName in _filesContainingPattern)
-            {
-                Console.WriteLine(fileName);
-            }
-        }
-
-        private void PrintNumberOfNewLines(int numberOfNewLines)
-        {
-            for(int i=0; i<numberOfNewLines; i++)
-            {
-                Console.WriteLine("");
-            }            
         }
     }
 }
