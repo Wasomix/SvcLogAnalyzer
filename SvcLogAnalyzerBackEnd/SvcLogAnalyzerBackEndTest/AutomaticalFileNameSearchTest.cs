@@ -2,7 +2,6 @@ using SvcLogAnalyzerBackEnd;
 using System.Collections.Generic;
 using System.IO;
 using Xunit;
-
 using System.Linq;
 using System;
 
