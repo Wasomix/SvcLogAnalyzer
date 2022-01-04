@@ -5,11 +5,12 @@ namespace SvcLogAnalyzerBackEnd
 {
     public class Log4Wrapper : ILog
     {
-        private string _fileName = "SvcLogAnalyzerBELog.log";
+        private string _fileName;// = "SvcLogAnalyzerBELog.log";
 
-        public Log4Wrapper(/*SvcLogAnalyzerBEDataConfig configuration*/)
+        public void SetLogFileNameAndDeletePreviousLogFile(string fileName)
         {
-            FileWrapper.DeleteFileIfItExist( _fileName );
+            _fileName = fileName;
+            FileWrapper.DeleteFileIfItExist(fileName);
         }
 
         public void WriteLogDebug(string message)

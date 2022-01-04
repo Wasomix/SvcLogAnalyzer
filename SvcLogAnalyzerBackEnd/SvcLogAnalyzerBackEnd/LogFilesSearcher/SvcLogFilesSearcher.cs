@@ -27,9 +27,11 @@ namespace SvcLogAnalyzerBackEnd
         {
             try
             {
+                Console.WriteLine("Search in process...");
                 _logger.WriteLogInfo($"[SvcLogFilesSearcher] Start from method GetFileNamesContainingPattern");
                 SearchPatternInSvcLogFiles();
                 _logger.WriteLogInfo($"[SvcLogFilesSearcher] End from method GetFileNamesContainingPattern");
+                Console.WriteLine("End of search");
 
                 return _filesContainingPattern;
             }

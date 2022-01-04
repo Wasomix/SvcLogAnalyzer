@@ -27,9 +27,10 @@ namespace SvcLogAnalyzerBackEnd
 
         public void Run()
         {
+            InitialSetUp();
+
             _logger.WriteLogInfo("Start of Main from class SvcLogAnalyzerBEMain");
 
-            GetConfigurations();
             DeleteFileContainingFileNamesWithPatternIfItExist();
             SearchPatternInFiles();
             SavesFileNamesContainingPattern();
@@ -37,9 +38,10 @@ namespace SvcLogAnalyzerBackEnd
             _logger.WriteLogInfo("End of Main from class SvcLogAnalyzerBEMain");
         }
 
-        private void GetConfigurations()
+        private void InitialSetUp()
         {
             GetSystemConfiguration();
+            SetLogFileNameAndDeletePreviousLogFile();
             GetFileNamesToSearchOn();
         }
 
@@ -52,6 +54,12 @@ namespace SvcLogAnalyzerBackEnd
         {
             _svcFileNames = _fileNamesToSearchOn.GetFileNamesToSearchInAFolder(
                 _svcLogAnalyzerBEDataConfig.LogFilesPath, _svcLogAnalyzerBEDataConfig.TypeOfFile);
+        }
+
+        private void SetLogFileNameAndDeletePreviousLogFile()
+        {
+            string logFileName = _svcLogAnalyzerBEDataConfig.ApplicationLogFileName;
+            _logger.SetLogFileNameAndDeletePreviousLogFile(logFileName);
         }
 
         private void DeleteFileContainingFileNamesWithPatternIfItExist()

@@ -6,6 +6,7 @@ namespace SvcLogAnalyzerBackEnd
 {
     public interface ILog
     {
+        public void SetLogFileNameAndDeletePreviousLogFile(string fileName);
         public void WriteLogDebug(string message);
         public void WriteLogInfo(string message);
         public void WriteLogError(string message);
