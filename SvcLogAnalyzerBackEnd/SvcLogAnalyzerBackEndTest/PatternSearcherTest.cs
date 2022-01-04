@@ -8,7 +8,6 @@ namespace SvcLogAnalyzerBackEndTest
     public class PatternSearcherTest
     {
         private PatternSearcher _patternSearcher;
-        private StreamReader _streamReader;
         private string _fileNamePath;
         private string _fileContent;
         private string _pattern;
@@ -18,7 +17,6 @@ namespace SvcLogAnalyzerBackEndTest
             _pattern = "";
             _patternSearcher = new PatternSearcher();
             CreateFile();
-            _streamReader = new StreamReader(_fileNamePath);
         }
         
         private void CreateFile()
@@ -40,9 +38,15 @@ namespace SvcLogAnalyzerBackEndTest
         // TODO : Make all test cases with correct naming convention
         [Fact]
         public void ItContainsPattern_FindPattern_ReturnTrue()
-        {            
+        {
+            bool patternFound = false;
             _pattern = "12rt";
-            bool patternFound = _patternSearcher.ItContainsPattern(_streamReader, _pattern);
+            
+            using (var streamReader = new StreamReader(_fileNamePath))
+            {
+                patternFound = _patternSearcher.ItContainsPattern(streamReader, _pattern);
+            }
+            
             TearDown();
             Assert.True(patternFound);
         }
@@ -50,8 +54,14 @@ namespace SvcLogAnalyzerBackEndTest
         [Fact]
         public void ItContainsPattern_DoNotFindPattern_ReturnFalse()
         {
-            _pattern = "sA34";
-            bool patternFound = _patternSearcher.ItContainsPattern(_streamReader, _pattern);
+            bool patternFound = true;
+            _pattern = "a32G";
+
+            using (var streamReader = new StreamReader(_fileNamePath))
+            {
+                patternFound = _patternSearcher.ItContainsPattern(streamReader, _pattern);
+            }
+
             TearDown();
             Assert.False(patternFound);
         }

@@ -75,13 +75,13 @@ namespace SvcLogAnalyzerBackEnd
             _logger.WriteLogInfo($"[SvcLogFilesSearcher] Start processing file {fileName} from method SearchPattern");
 
             PatternSearcher patternSearcher = new PatternSearcher();
-            StreamReader reader = SetUpStreamReader(fileNamePath);
-            
-            if (patternSearcher.ItContainsPattern(reader, _configuration.PatternToSearch))
+            using (var reader = SetUpStreamReader(fileNamePath))
             {
-                _filesContainingPattern.Add(fileName);
+                if (patternSearcher.ItContainsPattern(reader, _configuration.PatternToSearch))
+                {
+                    _filesContainingPattern.Add(fileName);
+                }
             }
-
             _logger.WriteLogInfo($"[SvcLogFilesSearcher] End processing file {fileName} from method SearchPattern");
         }
 
