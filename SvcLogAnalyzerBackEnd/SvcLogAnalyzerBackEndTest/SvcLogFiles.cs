@@ -28,6 +28,11 @@ namespace SvcLogAnalyzerBackEndTest
             }
         }
 
+        public List<string> GetSvcLogFileNames()
+        {
+            return _fileNames;
+        }
+
         public void DeleteSvcLogFiles()
         {
             for (int i = 0; i < NUMBER_OF_SVCLOG_FILES; i++)
