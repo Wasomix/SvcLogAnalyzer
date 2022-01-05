@@ -35,9 +35,8 @@ namespace SvcLogAnalyzerBackEndTest
             FileWrapper.DeleteFileIfItExist(_fileNamePath);
         }
 
-        // TODO : Make all test cases with correct naming convention
         [Fact]
-        public void ItContainsPattern_FindPattern_ReturnTrue()
+        public void ItContainsPattern_WithRightPattern_ReturnTrue()
         {
             bool patternFound = false;
             _pattern = "12rt";
@@ -52,10 +51,25 @@ namespace SvcLogAnalyzerBackEndTest
         }
 
         [Fact]
-        public void ItContainsPattern_DoNotFindPattern_ReturnFalse()
+        public void ItContainsPattern_WithWrongPattern_ReturnFalse()
         {
             bool patternFound = true;
             _pattern = "a32G";
+
+            using (var streamReader = new StreamReader(_fileNamePath))
+            {
+                patternFound = _patternSearcher.ItContainsPattern(streamReader, _pattern);
+            }
+
+            TearDown();
+            Assert.False(patternFound);
+        }
+
+        [Fact]
+        public void ItContainsPattern_WithTwoEmptySpacesAsPattern_ReturnFalse()
+        {
+            bool patternFound = true;
+            _pattern = "  ";
 
             using (var streamReader = new StreamReader(_fileNamePath))
             {

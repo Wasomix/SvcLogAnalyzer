@@ -5,6 +5,12 @@ namespace SvcLogAnalyzerBackEndTest
 {
     public class LogFake : ILog
     {
+        public void SetLogFileNameAndDeletePreviousLogFile(string fileName)
+        {
+            string message = "File name for log: " + fileName;
+            WriteLog4Wrapper(message);
+        }
+
         public void WriteLogDebug(string message)
         {
             string debugMessage = "[DEBUG] " + message;

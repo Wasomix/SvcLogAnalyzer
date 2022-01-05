@@ -1,20 +1,17 @@
 using SvcLogAnalyzerBackEnd;
-using System.Collections.Generic;
-using System.IO;
-using Xunit;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
 
 namespace SvcLogAnalyzerBackEndTest
 {
     public class AutomaticalFileNameSearchTest
     {
         private SvcLogAnalyzerBEDataConfig _svcLogAnalyzerBEDataConfig;
-        private const int NUMBER_OF_SVCLOG_FILES = 4;
         private List<string> _fileNames;
         private string _logFilePath;
-        private string _fileNamePreffix;
-        private string _fileType;
+        SvcLogFiles _svcLogFiles;
         private ILog _logFake;
 
         public AutomaticalFileNameSearchTest()
@@ -22,8 +19,7 @@ namespace SvcLogAnalyzerBackEndTest
             _svcLogAnalyzerBEDataConfig = new SvcLogAnalyzerBEDataConfig();
             _fileNames = new List<string>();
             _logFilePath = @".\";
-            _fileNamePreffix = "TestFile_";
-            _fileType = ".svclog";
+            _svcLogFiles = new SvcLogFiles();
             _logFake = new LogFake();
     }
 
@@ -84,13 +80,8 @@ namespace SvcLogAnalyzerBackEndTest
         }
 
         private void CreateSvcLogFiles()
-        {            
-            for(int i=0; i < NUMBER_OF_SVCLOG_FILES; i++)
-            {
-                string fileName = _fileNamePreffix + i.ToString() + _fileType;
-                using var file = File.Create(fileName);
-                _fileNames.Add(fileName);
-            }
+        {
+            _svcLogFiles.CreateSvcLogFiles();
         }
 
         private void SetConfiguration()
@@ -101,11 +92,7 @@ namespace SvcLogAnalyzerBackEndTest
 
         private void DeleteSvcLogFiles()
         {
-            for (int i = 0; i < NUMBER_OF_SVCLOG_FILES; i++)
-            {
-                string fileName = _fileNamePreffix + i.ToString() + _fileType;
-                File.Delete(fileName);
-            }
+            _svcLogFiles.DeleteSvcLogFiles();
         }
     }
 }
