@@ -336,3 +336,7 @@ ASALocalRun/
 !Shared/**/*.pdb
 !Shared/**/*.tlb
 !packages/**/*.dll
+
+# SonarQube
+/SvcLogAnalyzerBackend/sonar_net_core.cmd
+/SvcLogAnalyzerBackend/.sonarqube/*
