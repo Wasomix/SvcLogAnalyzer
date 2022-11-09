@@ -12,7 +12,7 @@ namespace SvcLogAnalyzerBackEnd
     {
         private SvcLogAnalyzerBEDataConfig _svcLogAnalyzerBEDataConfig;
         private List<string> _svcFileNames;
-        private List<string> _fileNamesContainingPattern;
+        private List<string> FileNamesContainingPattern { get; set; }
         ISystemConfiguration _systemConfiguration;
         IFileNamesToSearchOn _fileNamesToSearchOn;
         ILog _logger;
@@ -71,13 +71,13 @@ namespace SvcLogAnalyzerBackEnd
         private void SearchPatternInFiles()
         {
             ILogFilesSearcher logFilesSearcher = new SvcLogFilesSearcher(_svcLogAnalyzerBEDataConfig, _svcFileNames, _logger);
-            _fileNamesContainingPattern = logFilesSearcher.GetFileNamesContainingPattern();
+            FileNamesContainingPattern = logFilesSearcher.GetFileNamesContainingPattern();
         }
 
         private void SavesFileNamesContainingPattern()
         {
             string filesNameContainingPattern = "";
-            foreach(var file in _fileNamesContainingPattern)
+            foreach(var file in FileNamesContainingPattern)
             {
                 filesNameContainingPattern = filesNameContainingPattern + file + "\n";
             }
