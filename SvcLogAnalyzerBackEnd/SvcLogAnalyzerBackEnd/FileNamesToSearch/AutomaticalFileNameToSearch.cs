@@ -11,8 +11,8 @@ namespace SvcLogAnalyzerBackEnd
     /// </summary>
     public class AutomaticalFileNameToSearch : IFileNamesToSearchOn
     {
-        private List<string> _fileNamesToSearchOn;
-        private ILog _logger;
+        private readonly List<string> _fileNamesToSearchOn;
+        private readonly ILog _logger;
         public AutomaticalFileNameToSearch(ILog logger)
         {
             _fileNamesToSearchOn = new List<string>();
